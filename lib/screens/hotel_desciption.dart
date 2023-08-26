@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project2/components/general/facilities.dart';
+import 'package:project2/components/general/room_information.dart';
 import 'package:project2/components/text/text_widget.dart';
 import 'package:project2/constants/app_styles.dart';
 import 'package:project2/constants/constants.dart';
@@ -24,7 +24,7 @@ class _HotelDescriptionState extends State<HotelDescription> {
           SliverAppBar(
             pinned: true,
             floating: true,
-            expandedHeight: 300,
+            expandedHeight: AppLayout.getSize(context).height/2,
             toolbarHeight: 120,
             backgroundColor: primaryColor,
             stretch: true,
@@ -53,22 +53,9 @@ class _HotelDescriptionState extends State<HotelDescription> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, _) {
-                return  Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TextWidget(text: "Description",isBold: true,),
-                      height16,
-                      TextWidget(text: widget.room.description!,color: greyColor,),
-                      height24,
-                      const Facilities(),
-                    ],
-                  ),
-                );
-                
+                return  RoomInformation(hotel: widget.hotel,room: widget.room,);
               },
-              childCount: 3,
+              childCount: 1,
             ),
           ),
           ],
