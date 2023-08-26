@@ -7,12 +7,12 @@ import 'package:project2/components/text/text_widget.dart';
 class TextFieldWidget extends StatefulWidget {
   const TextFieldWidget(
       {super.key,
-      required this.preIcon,
+      this.preIcon,
       required this.hint,
-      required this.lable, this.maxLines = 1, this.controller});
+      this.lable, this.maxLines = 1, this.controller});
 
-  final String lable;
-  final Icon preIcon;
+  final String? lable;
+  final Icon? preIcon;
   final String hint;
   final int maxLines;
   final TextEditingController? controller;
@@ -34,7 +34,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           TextWidget(
-            text: widget.lable,
+            text: widget.lable ?? "",
             size: 20,
             isBold: true,
           ),
@@ -49,7 +49,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
               prefixIcon: widget.preIcon,
               prefixIconColor: primaryColor,
               suffixIconColor: primaryColor,
-              suffixIcon: (widget.lable.toLowerCase().compareTo("password") == 0) ? GestureDetector( onTap: () => setState(() {
+              suffixIcon: (widget.lable!.toLowerCase().compareTo("password") == 0) ? GestureDetector( onTap: () => setState(() {
                             isVisible = !isVisible;
                           }),
                           child: isVisible ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),)
@@ -58,7 +58,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             ),
             maxLines: widget.maxLines,
             minLines: 1,
-            obscureText: widget.lable.toLowerCase().compareTo("password") == 0 && !isVisible,
+            obscureText: widget.lable!.toLowerCase().compareTo("password") == 0 && !isVisible,
           ),
         ],
       ),

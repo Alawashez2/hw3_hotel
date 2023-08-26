@@ -80,11 +80,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LogInScreen(), //HomeScreen
+                      builder: (context) => const LogInScreen(), //HomeScreen
                     ));
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.amber,
+                backgroundColor: Colors.amber,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:project2/components/text/text_widget.dart';
 import 'package:project2/constants/app_styles.dart';
+import 'package:project2/services/supabase.dart';
+import 'package:project2/components/general/card_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,24 +14,55 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration:  BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [primaryColor, darkPrimaryColor])),
+        ),
+      ),
+      // drawer: const Drawer(),
+      body: FutureBuilder(
+          future: SupabaseService().getHotel(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final list = snapshot.data ?? [];
+              return GridView.builder(
+                  itemCount: list.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisExtent: 400, crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    return CardWidget(
+                      hotel: list[index],
+                    );
+                  });
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+    );
+  }
+}
+
+
+/*
+
+
+CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
             floating: true,
-            expandedHeight: 160,
+            expandedHeight: 220,
+            toolbarHeight: 120,
+            backgroundColor: primaryColor,
             stretch: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const TextWidget(text: "All Hotels",color: whiteColor,),
-                  Container(
-                    height: 30,
-                    width: 120,
-                    color: primaryColor,
-                  )
-                ],
+              title: const TextWidget(
+                text: "All Hotels",
+                color: whiteColor,
               ),
               background: Image.network(
                 "https://news.clemson.edu/wp-content/uploads/2021/06/science-fish-41067725.jpg",
@@ -43,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          SliverList(
+
+SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 return ListTile(
@@ -53,11 +85,8 @@ class _HomeScreenState extends State<HomeScreen> {
               childCount: 30,
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
+
+*/
 
 
 /*
