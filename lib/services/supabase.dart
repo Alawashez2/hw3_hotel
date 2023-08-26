@@ -38,6 +38,11 @@ class SupabaseService {
     return Room.fromJson(rawRoom[0]);
   }
 
+  Future insertUser(UserModel user) async {
+    final supabase = Supabase.instance.client;
+     await supabase.from('user').insert(user.toJson());
+  }
+
 //   Future insertCourse(Course course) async {
 //     final supabase = Supabase.instance.client;
 //      await supabase.from('course').insert(course.toJson());
