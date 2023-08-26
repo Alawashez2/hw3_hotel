@@ -5,7 +5,7 @@ Color darkPrimaryColor = Colors.blue.shade400;
 const whiteColor = Colors.white;
 Color greyColor = Colors.grey.shade600;
 Color lightGrayColor = Colors.grey.shade400;
-Color blackColor = Colors.black;
+const blackColor = Colors.black;
 var myGradient = LinearGradient(
   colors: [primaryColor, darkPrimaryColor],
   begin: Alignment.centerLeft,

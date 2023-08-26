@@ -27,7 +27,7 @@ class _CardWidgetState extends State<CardWidget> {
       height: 260,
       child: InkWell(
         onTap: () {
-          context.getNavigator(HotelDescription(room: room,hotel: widget.hotel,));
+          context.push(HotelDescription(room: room,hotel: widget.hotel,));
         },
         child: Card(
           margin: const EdgeInsets.all(10),

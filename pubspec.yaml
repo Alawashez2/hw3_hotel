@@ -20,6 +20,7 @@ dependencies:
   swipe_to: ^1.0.2
   elegant_notification: ^1.11.0
   supabase_flutter: ^1.10.14
+  supabase_auth_ui: ^0.1.0+2
 
 dev_dependencies:
   flutter_test:

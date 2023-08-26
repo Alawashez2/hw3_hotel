@@ -110,9 +110,15 @@ class _RoomInformationState extends State<RoomInformation> {
                     ),
                   ],
                 ),
-                    Button(text: "Book room", backgroundColor: primaryColor,onPress: (){
-                      context.getNavigator(BookRoom(room: widget.room));
-                    },color: blackColor,)
+                Button(
+                  text: "Book room",
+                  backgroundColor: primaryColor,
+                  onPress: () {
+                    context.push(
+                        BookRoom(room: widget.room, hotel: widget.hotel));
+                  },
+                  color: blackColor,
+                ),
               ],
             ),
           ),
