@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:project2/components/buttons/button.dart';
-import 'package:project2/components/text/text_field_widget.dart';
 import 'package:project2/components/text/text_widget.dart';
 import 'package:project2/constants/app_styles.dart';
 import 'package:project2/constants/constants.dart';
-import 'package:project2/extensions/navigator.dart';
 import 'package:project2/models/hotel.dart';
+import 'package:project2/models/reservation.dart';
 import 'package:project2/models/room.dart';
+import 'package:project2/models/user.dart';
+import 'package:project2/extensions/navigator.dart';
+import 'package:project2/screens/reservation_screen.dart';
+import 'package:project2/services/supabase.dart';
+import 'package:uuid/uuid.dart';
 
 class BookRoom extends StatefulWidget {
-  const BookRoom({super.key, required this.room, required this.hotel});
+  const BookRoom(
+      {super.key, required this.room, required this.hotel, required this.user});
   final Room room;
   final Hotel hotel;
-
+  final UserModel user;
   @override
   State<BookRoom> createState() => _BookRoomState();
 }
@@ -38,7 +42,7 @@ class _BookRoomState extends State<BookRoom> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceEve,
           children: [
-          height48,
+            height48,
             TextWidget(text: widget.hotel.name!),
             height32,
             ClipRRect(
@@ -57,7 +61,6 @@ class _BookRoomState extends State<BookRoom> {
                 Expanded(
                   child: SizedBox(
                     width: AppLayout.getSize(context).width / 2,
-                    // color: Colors.amberAccent,
                     child: Column(
                       children: [
                         const TextWidget(
@@ -76,7 +79,7 @@ class _BookRoomState extends State<BookRoom> {
                               isPicked = true;
                               selectedDate = dateTimeRange;
                               days = selectedDate.duration.inDays + 1;
-                              total_price = days * widget.room.price! ;
+                              total_price = days * widget.room.price!;
                               setState(() {});
                             }
                           },
@@ -91,7 +94,6 @@ class _BookRoomState extends State<BookRoom> {
                 ),
                 Expanded(
                   child: SizedBox(
-                    // color: Colors.pink,
                     width: AppLayout.getSize(context).width / 2,
                     child: isPicked
                         ? Column(
@@ -126,26 +128,42 @@ class _BookRoomState extends State<BookRoom> {
               thickness: 6,
             ),
             height24,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextWidget(text: "${widget.room.price} X $days night/s"),
-                TextWidget(text: "$total_price S.R"),
-              ],
+            Visibility(
+              visible: isPicked,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextWidget(text: "${widget.room.price} X $days night/s"),
+                  TextWidget(text: "$total_price S.R"),
+                ],
+              ),
             ),
             height64,
-             Visibility(
+            Visibility(
               visible: isPicked,
-               child: Button(
-                    text: "Book Now",
-                    backgroundColor: primaryColor,
-                    onPress: () {
-                      // context.getNavigator(
-                      //     BookRoom(room: widget.room, hotel: widget.hotel));
-                    },
-                    color: blackColor,
-                  ),
-             ),
+              child: Button(
+                text: "Book Now",
+                backgroundColor: primaryColor,
+                onPress: () async {
+                  final id = const Uuid().v4();
+                  await SupabaseService().insertReservation(
+                    Reservation(
+                        reservationId: id,
+                        roomId: widget.room.roomId,
+                        userId: widget.user.id,
+                        price: total_price,
+                        dateFrom:
+                            "${selectedDate.start.day}-${selectedDate.start.month}-${selectedDate.start.year}",
+                        dateTo:
+                            "${selectedDate.end.day}-${selectedDate.end.month}-${selectedDate.end.year}",
+                        days: days,
+                        hotelId: widget.hotel.hotelId),
+                  );
+                  context.push(const ReservationScreen());
+                },
+                color: blackColor,
+              ),
+            ),
           ],
         ),
       ),

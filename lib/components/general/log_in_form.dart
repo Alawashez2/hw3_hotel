@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project2/components/buttons/log_in_button.dart';
 import 'package:project2/components/text/text_field_widget.dart';
 import 'package:project2/components/text/text_widget.dart';
 import 'package:project2/constants/app_styles.dart';
@@ -65,7 +66,7 @@ class _LogInFormState extends State<LogInForm> {
                 ))
           ],
         ),
-        //
+        LogInButton(emailController: emailController,passwordController: passwordController),
       ],
     );
   }

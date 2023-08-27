@@ -5,12 +5,14 @@ import 'package:project2/constants/constants.dart';
 import 'package:project2/extensions/navigator.dart';
 import 'package:project2/models/hotel.dart';
 import 'package:project2/models/room.dart';
+import 'package:project2/models/user.dart';
 import 'package:project2/screens/hotel_desciption.dart';
 import 'package:project2/services/supabase.dart';
 
 class CardWidget extends StatefulWidget {
-  const CardWidget({super.key, this.onTap, required this.hotel});
+  const CardWidget({super.key, this.onTap, required this.hotel, required this.user});
   final Hotel hotel;
+  final UserModel user;
   final Function()? onTap;
 
   @override
@@ -27,7 +29,7 @@ class _CardWidgetState extends State<CardWidget> {
       height: 260,
       child: InkWell(
         onTap: () {
-          context.push(HotelDescription(room: room,hotel: widget.hotel,));
+          context.push(HotelDescription(room: room,hotel: widget.hotel,user: widget.user,));
         },
         child: Card(
           margin: const EdgeInsets.all(10),
@@ -63,13 +65,13 @@ class _CardWidgetState extends State<CardWidget> {
                     height16,
                     FutureBuilder(
                       future: SupabaseService()
-                          .getRoomsByHoteleId(widget.hotel.roomId!),
+                          .getRoomFromHoteleId(widget.hotel.roomId!),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           room = snapshot.data!;
                           return RichText(
                             text: TextSpan(
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16.0,
                                 color: blackColor,
                               ),
@@ -90,12 +92,6 @@ class _CardWidgetState extends State<CardWidget> {
                           return const SizedBox.shrink();
                         }
                       },
-                    ),
-                    height24,
-                    TextWidget(
-                      text: "4.9",
-                      size: 16,
-                      color: greyColor,
                     ),
                   ],
                 ),

@@ -19,13 +19,6 @@ class Facilities extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // TODO : remove swim icon
-            // Column(
-            //   children: [
-            //     Icon(Icons.pool, color: greyColor, size: 30),
-            //     const TextWidget(text: "Swimming pool", size: 12)
-            //   ],
-            // ),
             Column(
               children: [
                 Icon(Icons.airline_seat_recline_extra,

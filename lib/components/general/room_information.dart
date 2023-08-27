@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:project2/components/buttons/button.dart';
+import 'package:project2/components/buttons/book_room_button.dart';
 import 'package:project2/components/general/facilities.dart';
+import 'package:project2/components/general/reviews_room.dart';
 import 'package:project2/components/text/text_widget.dart';
 import 'package:project2/constants/app_styles.dart';
 import 'package:project2/constants/constants.dart';
-import 'package:project2/extensions/navigator.dart';
 import 'package:project2/models/hotel.dart';
 import 'package:project2/models/room.dart';
-import 'package:project2/screens/book_room.dart';
+import 'package:project2/models/user.dart';
+
+List list = [];
 
 class RoomInformation extends StatefulWidget {
-  const RoomInformation({super.key, required this.room, required this.hotel});
+  const RoomInformation(
+      {super.key, required this.room, required this.hotel, required this.user});
   final Room room;
   final Hotel hotel;
+  final UserModel user;
 
   @override
   State<RoomInformation> createState() => _RoomInformationState();
@@ -35,7 +39,7 @@ class _RoomInformationState extends State<RoomInformation> {
             children: [
               // TODO : add reviews form database
               TextWidget(
-                text: "(11 reviews)",
+                text: "(${list.length} reviews)",
                 size: 18,
                 color: greyColor,
               ),
@@ -65,62 +69,17 @@ class _RoomInformationState extends State<RoomInformation> {
           height24,
           const Facilities(),
           height24,
-          const TextWidget(
-            text: "Reviews",
-            isBold: true,
+          ReviewsRoom(
+            room: widget.room,
+            reload: () {
+              setState(() {});
+            },
           ),
           height24,
-          Container(
-            height: 150,
-            color: Colors.green,
-          ),
-          height24,
-          Container(
-            padding: const EdgeInsets.all(12),
-            height: 80,
-            // color: Colors.blueGrey.shade300,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const TextWidget(
-                      text: "Start form",
-                      size: 20,
-                    ),
-                    height8,
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: blackColor,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: " ${widget.room.price} S.R",
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          TextSpan(
-                            text: " /night",
-                            style: TextStyle(color: greyColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Button(
-                  text: "Book room",
-                  backgroundColor: primaryColor,
-                  onPress: () {
-                    context.push(
-                        BookRoom(room: widget.room, hotel: widget.hotel));
-                  },
-                  color: blackColor,
-                ),
-              ],
-            ),
+          BookRoomButton(
+            hotel: widget.hotel,
+            room: widget.room,
+            user: widget.user,
           ),
         ],
       ),

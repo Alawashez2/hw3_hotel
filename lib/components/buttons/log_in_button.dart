@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project2/components/buttons/button.dart';
 import 'package:project2/constants/app_styles.dart';
+import 'package:project2/data/global_data.dart';
 import 'package:project2/extensions/dialog.dart';
 import 'package:project2/extensions/navigator.dart';
+import 'package:project2/models/user.dart';
 import 'package:project2/screens/home_screen.dart';
+import 'package:project2/services/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LogInButton extends StatefulWidget {
@@ -31,8 +34,10 @@ class _LogInButtonState extends State<LogInButton> {
           await supabase.auth.signInWithOtp(
             email: widget.emailController.text,
           );
+          UserModel? user0 = await SupabaseService().getUser(widget.emailController.text);
+          activeUser = user0!;
           if (context.mounted) {
-            context.pushAndRemoveUntil(const HomeScreen());
+            context.pushAndRemoveUntil(HomeScreen(user: user0,));
           } else {
             context.dialogScreen();
           }

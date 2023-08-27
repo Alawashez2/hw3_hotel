@@ -48,7 +48,6 @@ class _SignUpButtonState extends State<SignUpButton> {
               password: widget.passwordController.text,
             ),
           );
-
           if (context.mounted) {
             widget.nameController.text = "";
             widget.emailController.text = "";
