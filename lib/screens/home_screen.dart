@@ -15,10 +15,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool? check = true;
-  bool? check2 = true;
-  bool? check3 = true;
-  bool? check4 = true;
+  bool? check = false;
+  bool? check2 = false;
+  bool? check3 = false;
+  bool? check4 = false;
   String paris = "";
   String london = "";
   String newYork = "";

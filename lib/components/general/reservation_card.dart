@@ -25,6 +25,11 @@ class ReservationCard extends StatefulWidget {
 
 class _ReservationCardState extends State<ReservationCard> {
   late Room room;
+    DateTimeRange selectedDate =
+      DateTimeRange(start: DateTime.now(), end: DateTime.now());
+  bool isPicked = false;
+  int days = 0;
+  double total_price = 0;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -87,20 +92,47 @@ class _ReservationCardState extends State<ReservationCard> {
                           ),
                           height16,
                           TextWidget(
-                            text: "total price : ${widget.reservation.price} S.R",
+                            text:
+                                "total price : ${widget.reservation.price} S.R",
                             size: 16,
                             color: greyColor,
                           ),
                           height16,
-                          IconButton(
-                            onPressed: () {
-                              SupabaseService().deleteReservation(widget.reservation.reservationId ?? "");
-                              setState(() {
-                              context.findAncestorStateOfType<ReservationScreenState>()!.setState(() {
-                              });
-                                
-                              });
-                          }, icon: const Icon(Icons.delete))
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  SupabaseService().deleteReservation(
+                                      widget.reservation.reservationId ?? "");
+                                  setState(() {
+                                    context
+                                        .findAncestorStateOfType<
+                                            ReservationScreenState>()!
+                                        .setState(() {});
+                                  });
+                                },
+                                icon: const Icon(Icons.delete),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                            final DateTimeRange? dateTimeRange =
+                                await showDateRangePicker(
+                                    context: context,
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime(2023, 12, 31));
+                            if (dateTimeRange != null) {
+                              isPicked = true;
+                              selectedDate = dateTimeRange;
+                              days = selectedDate.duration.inDays + 1;
+                              total_price =  widget.reservation.price!;
+                              setState(() {});
+                            }
+                          },
+                                icon: const Icon(Icons.edit),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -108,7 +140,7 @@ class _ReservationCardState extends State<ReservationCard> {
                 ),
               ),
             );
-          }else{
+          } else {
             return const SizedBox.shrink();
           }
         });
