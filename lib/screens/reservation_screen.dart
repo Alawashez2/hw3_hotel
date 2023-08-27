@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project2/components/general/reservation_card.dart';
 import 'package:project2/components/text/text_widget.dart';
 import 'package:project2/constants/app_styles.dart';
-import 'package:project2/data/global_data.dart';
-import 'package:project2/models/hotel.dart';
-import 'package:project2/models/room.dart';
 import 'package:project2/services/supabase.dart';
 
 class ReservationScreen extends StatefulWidget {

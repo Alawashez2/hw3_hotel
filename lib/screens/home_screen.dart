@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project2/components/text/text_widget.dart';
 import 'package:project2/constants/app_styles.dart';
 import 'package:project2/extensions/navigator.dart';
 import 'package:project2/models/user.dart';
@@ -24,22 +23,17 @@ class _HomeScreenState extends State<HomeScreen> {
   String london = "";
   String newYork = "";
   String dubai = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextWidget(
-          text: widget.user.name!,
-                    size: 16,
-          color: Colors.red,
+        title: IconButton(
+          onPressed: () {
+            context.push(const ReservationScreen());
+          },
+          icon: const Icon(Icons.book_rounded),
         ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.push(const ReservationScreen());
-              },
-              icon: const Icon(Icons.book_rounded))
-        ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -80,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     setState(() {
                       check3 = value;
                       newYork = check3! ? "New York" : "";
-                      
                     });
                   },
                   title: const Text("New York"),
@@ -100,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: SupabaseService().getHotels3(paris,london,newYork,dubai),
+              future:
+                  SupabaseService().getHotels2(paris, london, newYork, dubai),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final list = snapshot.data ?? [];
@@ -108,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: list.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: 400, crossAxisCount: 2),
+                              mainAxisExtent: 350, crossAxisCount: 2),
                       itemBuilder: (context, index) {
                         return CardWidget(
                           hotel: list[index],

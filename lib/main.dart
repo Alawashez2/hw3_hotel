@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:project2/screens/auth/log_in_screen.dart';
-import 'package:project2/screens/auth/sign_up_screen.dart';
-import 'package:project2/screens/home_screen.dart';
 import 'package:project2/services/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -48,7 +46,7 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LogInScreen(),
     );

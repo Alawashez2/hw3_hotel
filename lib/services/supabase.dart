@@ -9,17 +9,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseService {
   static final client = Supabase.instance.client;
 
-  // Future<List<UserModel>?> getUser() async {
-  //   final supabase = Supabase.instance.client; // ! it Does Not Work
-  //   final rawUser = await supabase.from('user').select();
-  //   log(rawUser.toString());
-  //   final List<UserModel> listUsers = [];
-  //   for (final user in rawUser) {
-  //     listUsers.add(UserModel.fromJson(user));
-  //   }
-  //   return listUsers;
-  // }
-
   Future<UserModel>? getUser(String email) async {
     final supabase = Supabase.instance.client;
     final rawUser =
@@ -27,27 +16,9 @@ class SupabaseService {
     return UserModel.fromJson(rawUser[0]);
   }
 
-  Future<List<Hotel>?> getHotels() async {
-    final supabase = Supabase.instance.client;
-    final rawHotel = await supabase.from('hotel').select();
-    final List<Hotel> listHotels = [];
-    for (final hotel in rawHotel) {
-      listHotels.add(Hotel.fromJson(hotel));
-    }
-    return listHotels;
-  }
   Future<List<Hotel>?> getHotels2(String paris, String london, String newYork, String dubai) async {
     final supabase = Supabase.instance.client;
     final rawHotel = await supabase.from('hotel').select().or('place.eq.$paris,place.eq.$london,place.eq.$newYork,place.eq.$dubai');
-    final List<Hotel> listHotels = [];
-    for (final hotel in rawHotel) {
-      listHotels.add(Hotel.fromJson(hotel));
-    }
-    return listHotels;
-  }
-  Future<List<Hotel>?> getHotels3(String paris, String london, String newYork, String dubai) async {
-    final supabase = Supabase.instance.client;
-    final rawHotel = await supabase.from('hotel').select().filter('place', 'in', '("$paris","$london","$newYork","$dubai")');
     final List<Hotel> listHotels = [];
     for (final hotel in rawHotel) {
       listHotels.add(Hotel.fromJson(hotel));
